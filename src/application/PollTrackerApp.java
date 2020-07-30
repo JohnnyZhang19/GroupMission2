@@ -1,3 +1,6 @@
+/**
+ * PollTrackerApp pulls together the work done by all team members into a single application.
+ */
 package application;
 	
 import java.io.ByteArrayOutputStream;
@@ -83,7 +86,7 @@ public class PollTrackerApp extends Application {
 		vizualizationTextArea.setText(partyNames + numOfSeats + numOfPolls + visualization.toString());		
 	}
 	
-	// Remove this method if you use your own visualization.	
+	// This is to create a visualization of the polls	
 	private Tab getDefaultVisualization() {
 		// Create a stream to hold the output
 		TextArea vizTextArea = new TextArea();
@@ -92,30 +95,18 @@ public class PollTrackerApp extends Application {
 		vizTab.setOnSelectionChanged (e -> updateVisualization(vizTextArea));
 		return vizTab; 
 	}
-	
+	/**
+	 * Display view by tabs: Add Poll, Setup Poll Tracker and Edit Poll
+	 */
 	@Override
 	public void start(Stage primaryStage) {
-		/* Remove the next two lines (and this comment) before the final version of iteration 2.
-		 * These two first statements allows you to run and test your view with some data.
-		 * Use the first if you need the application to run with some randomly generated.
-		 * use the second if you want a list of empty polls to start with.
-		 */
 		polls = factory.createRandomPollList(DEFAULT_NUMBER_OF_POLLS);
 		//polls = new PollList(DEFAULT_NUMBER_OF_POLLS, DEFAULT_NUMBER_OF_SEATS);
-			
-		/* Uncomment the line for the view you are working on.  All should be uncommented for
-		 * the final version of iteration 2 for your team.  If your team has less than 5 team
-		 * members, you can leave the fifth 'createTab' uncommented.  Otherwise, delete the last
-		 * argument that provides a default visualization before finalizing your team's 
-		 * solution.
-		 */
+
 		TabPane root = new TabPane(
-				createTab("Add Poll", FXML_FILES_LOCATION + "AddPollView.fxml"),
 				createTab("Setup Poll Tracker", FXML_FILES_LOCATION + "NewSetupPollTrackerView.fxml"),
-				//createTab("Setup Poll Tracker", FXML_FILES_LOCATION + "SetupPollTrackerView.fxml"),
-				//createTab("Setup Parties", FXML_FILES_LOCATION + "SetupPartiesView.fxml"),
-				//createTab("Add Poll", FXML_FILES_LOCATION + "AddPollView.fxml"),
-				//createTab("Edit Poll", FXML_FILES_LOCATION + "EditPollView.fxml"),
+				createTab("Add Poll", FXML_FILES_LOCATION + "AddPollView.fxml"),
+				createTab("Edit Poll", FXML_FILES_LOCATION + "EditPollView.fxml"),
 				//createTab("Visualize Poll", FXML_FILES_LOCATION + "VisualizePollView.fxml")
 				getDefaultVisualization()
 									);
