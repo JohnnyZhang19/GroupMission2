@@ -1,3 +1,10 @@
+/**
+ * The purpose of this code is for the user to setup a new poll tracker
+ * by specifying the number of seats and parties in the election and
+ * the number of polls to track.
+ * 
+ * @author Ha Do
+ */
 package application;
 
 import javafx.event.ActionEvent;
@@ -38,7 +45,13 @@ public class SetupPollTrackerController extends PollTrackerController {
     void partyTyped(KeyEvent event) {
 
     }
-
+/**
+ * This method is triggered when the "Submit" button is pressed,
+ * allowing the user to put the number of seats and parties in the
+ * election and the number of polls to track.
+ * It also generates random parties using the Factory class
+ * @param event
+ */
     @FXML
     void submitThing(ActionEvent event) {
     	int pollNum = Integer.parseInt(inputPoll.getText());
@@ -52,17 +65,24 @@ public class SetupPollTrackerController extends PollTrackerController {
     	}
     	getFactory().setPartyNames(party);
     }
-
+/**
+ * This method is triggered when the "Submit" button is pressed,
+ * allowing the user to clear all input in the poll
+ * @param event
+ */
     @FXML
     void clearThings(ActionEvent event) {
-    	inputParty.clear();
-    	inputPoll.clear();
-    	inputSeat.clear();
+    	refresh();
     }
-
+/**
+ * This method overrides the one in its parent class PollTrackerController,
+ * allowing the user to clear input
+ */
 	@Override
 	public void refresh() {
-		
+		inputParty.clear();
+    	inputPoll.clear();
+    	inputSeat.clear();
 	}
 
 }
