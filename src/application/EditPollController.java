@@ -60,10 +60,10 @@ public class EditPollController extends PollTrackerController {
 	
 	private float partyseats =1;
 	private float partyvotes =1;
-	private int userPChoose = 0;
+	private int userPollChoose = 0;
 	private int userPartyChoose = 0;
-	private float a = 1;
-	private float b = 1;
+	private float voteInput = 1;
+	private float seatsInput = 1;
 	
 	/**
 	 * This method can make what people type in 
@@ -71,8 +71,8 @@ public class EditPollController extends PollTrackerController {
 	 * @param event What people type. 
 	 */
 	@FXML
-	void textVote(KeyEvent event) {
-		a = Float.valueOf(projectedVotes.getText());
+	void textVote(KeyEvent event){
+		voteInput = Float.valueOf(projectedVotes.getText());
 		
 	}
 	
@@ -82,7 +82,7 @@ public class EditPollController extends PollTrackerController {
 	 * @param event When people click the button. 
 	 */
 	@FXML
-	void buttonClear(ActionEvent event) {
+	void buttonClear(ActionEvent event){
 		refresh();
 	}
 
@@ -92,15 +92,21 @@ public class EditPollController extends PollTrackerController {
 	 * @param event When click the button, the data will be updated.
 	 */
 	@FXML
-	void buttonUpdate(ActionEvent event) { 
-		if (userPartyChoose == -1 || userPChoose == -1) {
+	void buttonUpdate(ActionEvent event){ 
+		/**
+		 * We need to ensure userPartyChoose and userPollChoose are not -1 when people update second time
+		 * Otherwise "java.lang.ArrayIndexOutOfBoundsException: -1" will occur.
+		 */
+		if (userPartyChoose == -1 || userPollChoose == -1){
 			return;
-		}
-			getPollList().getPolls()[userPChoose].getPartiesSortedBySeats()[userPartyChoose].setProjectedPercentageOfVotes(a);
-			getPollList().getPolls()[userPChoose].getPartiesSortedBySeats()[userPartyChoose].setProjectedNumberOfSeats(b);
-			
-		
-		
+		} 
+		/**
+		 * 	We get the userPollChoose poll from the pollList, and get the userPartyChoose 
+		 * party from the userPollChoose poll, and set the number of seats and votes of userPartyChoose party
+		 * in party choiceBox.
+		 */
+		getPollList().getPolls()[userPollChoose].getPartiesSortedBySeats()[userPartyChoose].setProjectedPercentageOfVotes(voteInput);
+		getPollList().getPolls()[userPollChoose].getPartiesSortedBySeats()[userPartyChoose].setProjectedNumberOfSeats(seatsInput);
 	}
 		 	
 	/**
@@ -109,51 +115,16 @@ public class EditPollController extends PollTrackerController {
 	 * @param event What people type in this field.
 	 */
 	@FXML
-	void textSeats(KeyEvent event) {
-		b = Float.valueOf(projectedSeats.getText());
+	void textSeats(KeyEvent event){
+		seatsInput = Float.valueOf(projectedSeats.getText());
 	}
 	
-	/**
-	 * Get the number of polls from "Setup Poll Tracker View" class
-	 */
-	public String[] getuserchoiceofpoll() {
-		int length = getPollList().getPolls().length;
-		String[] values = new String[length];
-		for(int i = 0;i < length;i++) {
-			values[i] = getPollList().getPolls()[i].getPollName();
-		}
-		return values;
-	}
-	
-	/**
-	 * Get to number of seats and votes people sets in previous classes.
-	 */
-	public String[] getUserChoiceOfParty() {
-		int length = getPollList().getPolls()[userPChoose].getPartiesSortedBySeats().length;
-		String[] values = new String[length];
-		for(int i = 0;i < length;i++) {
-			/**
-			 *  We get a list of poll at first, then find a certain poll i, then find a certain party
-			*  k sorted by seats, then we get the number of this party's seats.
-			*/
-			
-				partyseats = getPollList().getPolls()[userPChoose].getPartiesSortedBySeats()[i].getProjectedNumberOfSeats();
-				/**
-				 * We get a list of poll at first, then find a certain poll i, then find a certain party
-				 *  k sorted by vote, then we get the number of this party's votes.
-				 */
-				partyvotes = getPollList().getPolls()[userPChoose].getPartiesSortedBySeats()[i].getProjectedPercentageOfVotes();
-				values[i] = getPollList().getPolls()[userPChoose].getPartiesSortedBySeats()[i].getName() +"(" + 
-						partyseats +" of seats, " + partyvotes + " of votes)";
-		}
-		return values;
-	}
 
 	/**
 	 * The initialization of the objects in GUI.
 	 */
 	@FXML
-	void initialize() {
+	void initialize(){
 		assert pollToEdit != null : "fx:id=\"pollToEdit\" was not injected: check your FXML file 'EditPollView.fxml'.";
 		assert clear != null : "fx:id=\"clear\" was not injected: check your FXML file 'EditPollView.fxml'.";
 		assert warninglabel2 != null : "fx:id=\"warninglabel2\" was not injected: check your FXML file 'EditPollView.fxml'.";
@@ -163,7 +134,6 @@ public class EditPollController extends PollTrackerController {
 		assert projectedVotes != null : "fx:id=\"projectedVotes\" was not injected: check your FXML file 'EditPollView.fxml'.";
 		assert numberofwholeseats != null : "fx:id=\"numberofwholeseats\" was not injected: check your FXML file 'EditPollView.fxml'.";
 		assert partyToUpdate != null : "fx:id=\"partyToUpdate\" was not injected: check your FXML file 'EditPollView.fxml'.";
-		
 	}
 
 	/**
@@ -171,57 +141,62 @@ public class EditPollController extends PollTrackerController {
 	 * the interface like the initialization.
 	 */
 	@Override
-	public void refresh() {
-
-		
-		String[] pollnames= new String[getPollList().getPolls().length];
-		
-		for (int i = 0; i < getPollList().getPolls().length; i++) {
-			pollnames[i] = getPollList().getPolls()[i].getPollName();
-		}
-		
-		
-		pollToEdit.setItems(FXCollections.observableArrayList(pollnames));
-		
+	public void refresh(){
+		/**
+		 * Get the number and name of polls from previous classes
+		 */
+			int length = getPollList().getPolls().length;
+			String[] pollName = new String[length];
+			for(int i = 0;i < length;i++){
+				pollName[i] = getPollList().getPolls()[i].getPollName();
+			}
+		/**
+		 * set the values from previous classes to this pollToEdit.
+		 */
+		pollToEdit.setItems(FXCollections.observableArrayList(pollName));
 		pollToEdit.getSelectionModel().selectedIndexProperty().addListener(
 	        	new ChangeListener<Number>() {
 	        			
 	        		@Override
 	        		public void changed(ObservableValue ob, Number old, Number new1) {
 	        		
-	        		userPChoose = new1.intValue();
+	        		userPollChoose = new1.intValue();
 	        		
-	        		if (userPChoose!=-1) {
-	        			String[] partynames = new String[getPollList().getPolls()[userPChoose].getPartiesSortedBySeats().length];
-	        			for(int i = 0;i < getPollList().getPolls()[userPChoose].getPartiesSortedBySeats().length;i++) {
-	        				  
-	        			
-	        				partyseats = getPollList().getPolls()[userPChoose].getPartiesSortedBySeats()[i].getProjectedNumberOfSeats();
-	        				
-	        				partyvotes = getPollList().getPolls()[userPChoose].getPartiesSortedBySeats()[i].getProjectedPercentageOfVotes();
-	        				
-	        				partynames[i] = getPollList().getPolls()[userPChoose].getPartiesSortedBySeats()[i].getName() +"(" + 
-							partyseats +" of seats, " + partyvotes + " of votes)";
+	        		if (userPollChoose!=-1) {
+	        			/**
+	        			 * Get to number of seats and votes people sets in previous classes.
+	        			 */
+	        			String[] partyNames = new String[getPollList().getPolls()[userPollChoose].getPartiesSortedBySeats().length];
+	        			for(int i = 0;i < getPollList().getPolls()[userPollChoose].getPartiesSortedBySeats().length;i++) {
+	        				/**
+	        				 * We get a list of poll at first, then find a certain poll userPollChoose, then find a certain party
+	        				 *  i sorted by seats, then we get the number of this party's votes.
+	        				 */
+	        				partyseats = getPollList().getPolls()[userPollChoose].getPartiesSortedBySeats()[i].getProjectedNumberOfSeats();
+	        				partyvotes = getPollList().getPolls()[userPollChoose].getPartiesSortedBySeats()[i].getProjectedPercentageOfVotes();
+	        				partyNames[i] = getPollList().getPolls()[userPollChoose].getPartiesSortedBySeats()[i].getName() +"(" + 
+	        						partyseats +" of seats, " + partyvotes + " of votes)";
 	        			}
-	        			
-	        			partyToUpdate.setItems(FXCollections.observableArrayList(partynames));
+	        			/**
+	        			 * set the values from previous classes to this pollToEdit.
+	        			 */
+	        			partyToUpdate.setItems(FXCollections.observableArrayList(partyNames));
 	        		}
-	        		
 	        		partyToUpdate.getSelectionModel().selectedIndexProperty().addListener(
 	    					new ChangeListener<Number>() {
 
 	    						@Override
 	    						public void changed(ObservableValue observable, Number oldValue, Number newValue) {
 	    							userPartyChoose = newValue.intValue();
-	    							System.out.println(2 + ","+ userPChoose + "," + userPartyChoose);
 	    						}
 	    					});
-	        		
-	        			System.out.println(1 + "," + userPChoose + "," + userPartyChoose);
 	        		}
 	        	}	
 	        );
-		
+		/**
+		 * get the number of whole seats in all the polls the end of this line
+		 * clear the things in textField. 
+		 */
 		numberofwholeseats.setText(" /" + getPollList().getNumOfSeats());  
 		projectedSeats.clear();
 		projectedVotes.clear();
