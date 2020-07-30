@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+
+<AnchorPane prefHeight="400.0" prefWidth="500.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8" fx:controller="application.SetupPollTrackerController">
+   <children>
+      <Label layoutX="142.0" layoutY="48.0" text="Number of polls to track:" />
+      <Label layoutX="80.0" layoutY="91.0" text="Number of seats available in election:" />
+      <Label layoutX="80.0" layoutY="130.0" text="Number of parties running in election:" />
+      <TextField fx:id="inputPoll" layoutX="324.0" layoutY="41.0" onKeyTyped="#PollTyped" prefHeight="28.0" prefWidth="100.0" />
+      <TextField fx:id="inputSeat" layoutX="324.0" layoutY="84.0" onKeyTyped="#seatTyped" prefHeight="28.0" prefWidth="100.0" />
+      <TextField fx:id="inputParty" layoutX="324.0" layoutY="123.0" onKeyTyped="#partyTyped" prefHeight="16.0" prefWidth="100.0" />
+      <Button fx:id="SubmitButton" layoutX="262.0" layoutY="226.0" mnemonicParsing="false" onAction="#submitThing" text="Submit" />
+      <Button fx:id="Clear" layoutX="131.0" layoutY="226.0" mnemonicParsing="false" onAction="#clearThings" text="Clear" />
+   </children>
+</AnchorPane>
