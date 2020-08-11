@@ -56,10 +56,10 @@
          <children>
             <Label prefHeight="20.0" prefWidth="215.0" text="Projected number of seats:">
                <HBox.margin>
-                  <Insets left="50.0" />
+                  <Insets left="60.0" />
                </HBox.margin>
             </Label>
-            <TextField fx:id="projectedSeats" onKeyTyped="#textSeats" prefHeight="30.0" prefWidth="136.0" promptText="Enter a number">
+            <TextField fx:id="projectedSeats" onKeyTyped="#textSeats" prefHeight="30.0" prefWidth="141.0" promptText="Enter a number">
                <HBox.margin>
                   <Insets />
                </HBox.margin>
@@ -85,12 +85,12 @@
                         <Insets left="50.0" top="30.0" />
                      </HBox.margin>
                   </Label>
-                  <TextField fx:id="projectedVotes" onKeyTyped="#textVote" prefHeight="30.0" prefWidth="135.0" promptText="Enter a number">
+                  <TextField fx:id="projectedVotes" onKeyTyped="#textVote" prefHeight="30.0" prefWidth="135.0" promptText="Enter a decimal">
                      <HBox.margin>
                         <Insets top="30.0" />
                      </HBox.margin>
                   </TextField>
-                  <Label text="\%">
+                  <Label>
                      <padding>
                         <Insets left="10.0" />
                      </padding>
@@ -104,7 +104,7 @@
                <children>
                   <Button fx:id="clear" mnemonicParsing="false" onAction="#buttonClear" text="Clear">
                      <HBox.margin>
-                        <Insets left="170.0" />
+                        <Insets left="150.0" />
                      </HBox.margin>
                   </Button>
                   <Button fx:id="updateParty" mnemonicParsing="false" onAction="#buttonUpdate" text="Update Party">
