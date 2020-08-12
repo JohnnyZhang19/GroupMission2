@@ -1,5 +1,6 @@
 package application;
 
+import model.InvalidPartyDataException;
 import model.Party;
 import model.Poll;
 import model.PollList;
@@ -23,7 +24,12 @@ public class TextApplication {
 			for (int index = 0; index < allPolls.length && allPolls[index] != null; index++) {
 				displayPollDataBySeat(allPolls[index]);
 			}
-			displayPollDataBySeat(polls.getAggregatePoll(partyNames));
+			try {
+				displayPollDataBySeat(polls.getAggregatePoll(partyNames));
+			} catch (InvalidPartyDataException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 	}
 
