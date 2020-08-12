@@ -5,6 +5,9 @@ package model;
  * For mission 3, Factory is updated class to catch the InvalidPartyDataException where required to ensure the Factory class compiles.
  * In each catch statement, a stack trace is printed. 
  * 
+ * For mission 3, Factory is updated class to catch the PollListFullException where required to ensure the Factory class compiles.
+ * In each catch statement, a stack trace is printed.
+ * 
  * @author Musaab Shahid
  *
  */
@@ -78,7 +81,12 @@ public class Factory {
 	public PollList createRandomPollList(int numOfPolls) {
 		PollList list = new PollList(numOfPolls,numOfSeats);
 		for (int counter = 0; counter < numOfPolls; counter++) {
-			list.addPoll(createRandomPoll("Poll" + counter));
+			try {
+				list.addPoll(createRandomPoll("Poll" + counter));
+			} catch (PollListFullException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		return list;
 	}
@@ -90,7 +98,12 @@ public class Factory {
 		for (int counter = 0; counter < numOfPolls; counter++) {
 			System.out.println("Poll " + counter + " name: ");
 			pollName = sc.next();
-			list.addPoll(createRandomPoll(pollName));
+			try {
+				list.addPoll(createRandomPoll(pollName));
+			} catch (PollListFullException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		return list;
 	}

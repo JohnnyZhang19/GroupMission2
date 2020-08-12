@@ -32,7 +32,7 @@ public class PollList {
 		return polls;
 	}
 
-	public void addPoll(Poll aPoll) {
+	public void addPoll(Poll aPoll) throws PollListFullException{
 		if (aPoll == null) {							// if aPoll is null, the list keeps unchanged.
 			System.err.println("The enter is null.");
 			return;
@@ -49,7 +49,7 @@ public class PollList {
 			index ++;
 		}
 		else {
-			System.err.println("There is no more rooms in the list, the list is full."); 	// if the list is full, then cannot add new poll to it and print a error.
+			throw new PollListFullException ("There is no more rooms in the list, the list is full."); 	// if the list is full, then cannot add new poll to it and print a error.
 		}
 	}
 	/**
