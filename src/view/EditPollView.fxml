@@ -75,7 +75,7 @@
    <bottom>
       <VBox prefHeight="247.0" prefWidth="500.0" BorderPane.alignment="CENTER">
          <children>
-            <HBox prefHeight="100.0" prefWidth="200.0">
+            <HBox prefHeight="42.0" prefWidth="500.0">
                <padding>
                   <Insets left="10.0" />
                </padding>
@@ -90,15 +90,20 @@
                         <Insets top="30.0" />
                      </HBox.margin>
                   </TextField>
-                  <Label>
-                     <padding>
-                        <Insets left="10.0" />
-                     </padding>
-                     <HBox.margin>
-                        <Insets top="30.0" />
-                     </HBox.margin>
-                  </Label>
                </children>
+            </HBox>
+            <HBox prefHeight="0.0" prefWidth="500.0">
+               <children>
+                  <VBox prefHeight="27.0" prefWidth="490.0">
+                     <children>
+                        <Label fx:id="warninglabel2" prefHeight="27.0" prefWidth="451.0" />
+                        <Label fx:id="warninglabel21" prefHeight="27.0" prefWidth="451.0" />
+                     </children>
+                  </VBox>
+               </children>
+               <padding>
+                  <Insets left="10.0" />
+               </padding>
             </HBox>
             <HBox prefHeight="64.0" prefWidth="500.0">
                <children>
@@ -114,11 +119,6 @@
                   </Button>
                </children>
             </HBox>
-            <Label fx:id="warninglabel2">
-               <VBox.margin>
-                  <Insets left="170.0" />
-               </VBox.margin>
-            </Label>
          </children>
       </VBox>
    </bottom>

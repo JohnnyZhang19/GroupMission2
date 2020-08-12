@@ -2,6 +2,8 @@ package model;
 
 /**
  * This class creates Parties, Polls and PollLists either randomly or by prompting the end user for the data for the polls and parties.
+ * For mission 3, Factory is updated class to catch the InvalidPartyDataException where required to ensure the Factory class compiles.
+ * In each catch statement, a stack trace is printed. 
  * 
  * @author Musaab Shahid
  *
@@ -29,7 +31,13 @@ public class Factory {
 	
 	public Party createRandomParty(String partyName, int maximumSeats, int maximumPercent) {
 		Random rand = new Random();
-		return new Party(partyName, maximumSeats > 0 ? rand.nextInt(maximumSeats) : 0, maximumPercent > 0 ? rand.nextInt(maximumPercent)/(float)100.0 : 0);
+		try {
+			return new Party(partyName, maximumSeats > 0 ? rand.nextInt(maximumSeats) : 0, maximumPercent > 0 ? rand.nextInt(maximumPercent)/(float)100.0 : 0);
+		} catch (InvalidPartyDataException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
 	}
 	
 	public Poll createRandomPoll(String name) {
@@ -51,8 +59,18 @@ public class Factory {
 		if (numOfSeatsTillNow < numOfSeats || votesPercentTillNow < 100) {
 			int randomIndex = rand.nextInt(partyNames.length);
 			Party party1 = poll.getPartiesSortedBySeats()[randomIndex];
-			party1.setProjectedNumberOfSeats(party1.getProjectedNumberOfSeats() + numOfSeats - numOfSeatsTillNow);
-			party1.setProjectedPercentageOfVotes(party1.getProjectedPercentageOfVotes() + (1 - votesPercentTillNow));
+			try {
+				party1.setProjectedNumberOfSeats(party1.getProjectedNumberOfSeats() + numOfSeats - numOfSeatsTillNow);
+			} catch (InvalidPartyDataException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			try {
+				party1.setProjectedPercentageOfVotes(party1.getProjectedPercentageOfVotes() + (1 - votesPercentTillNow));
+			} catch (InvalidPartyDataException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		return poll;
 	}

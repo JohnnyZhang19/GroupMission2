@@ -1,8 +1,10 @@
 package model;
 /**
  * This class is for storing information about a party (name and projections) and displaying in a visualization.
- * 
+ * For Mission 1:
  * @author Ayoub Bin Nakhi
+ * For Mission 3:
+ * @author Ha Do
  *
  */
 public class Party {
@@ -17,17 +19,18 @@ public class Party {
 	/**
 	 * Constructor for class, projected number of seats should be a positive float
 	 * projected percent of votes must be entered as value between 0 and 1.
+	 * @throws InvalidPartyDataException 
 	 */
-	public Party(String partyName, float projectedNumOfSeats, float projectedPercentOfVotes) {
+	public Party(String partyName, float projectedNumOfSeats, float projectedPercentOfVotes) throws InvalidPartyDataException {
 		name = partyName;
 		if (projectedNumOfSeats >= 0)
 			projectedNumberOfSeats = projectedNumOfSeats;
 		else 
-			System.err.println("Projected Number of Seats must be a positive float.");
+			throw new InvalidPartyDataException("Projected Number of Seats must be a positive float.");
 		if (projectedPercentOfVotes >= 0 && projectedPercentOfVotes <= 1)
 			projectedPercentageOfVotes = projectedPercentOfVotes;
 		else
-			System.err.println("Percentage of Votes must be written as a float between 0 and 1");
+			throw new InvalidPartyDataException("Percentage of Votes must be written as a float between 0 and 1");
 	}
 	
 	//Next few methods are getters and setters for the instance variables
@@ -43,24 +46,36 @@ public class Party {
 	public float getProjectedNumberOfSeats() {
 		return projectedNumberOfSeats;
 	}
-	
-	public float setProjectedNumberOfSeats(float projectedNumberOfSeats) {
+	/**
+	 * InvalidPartyDataException is thrown if the projectedNumberOfSeats would be set to an invalid number.
+	 * A valid number of seats must be non-negative.
+	 * @param projectedNumberOfSeats
+	 * @return
+	 * @throws InvalidPartyDataException
+	 */
+	public float setProjectedNumberOfSeats(float projectedNumberOfSeats) throws InvalidPartyDataException {
 		if (projectedNumberOfSeats >= 0) 
 			this.projectedNumberOfSeats = projectedNumberOfSeats;	
 		else 
-			System.err.println("Projected Number of Seats must be a positive float.");
+			throw new InvalidPartyDataException("Projected Number of Seats must be a positive float.");
 		return this.projectedNumberOfSeats;		
 	}
 	
 	public float getProjectedPercentageOfVotes() {
 		return this.projectedPercentageOfVotes;
 	}
-	
-	public float setProjectedPercentageOfVotes(float projectedPercentageOfVotes) {
+	/**
+	 * InvalidPartyDataException is thrown if the projectedPercentOfVotes would be set to an invalid number.
+	 * A valid number is between 0 and 1 (both inclusive).
+	 * @param projectedPercentageOfVotes
+	 * @return
+	 * @throws InvalidPartyDataException 
+	 */
+	public float setProjectedPercentageOfVotes(float projectedPercentageOfVotes) throws InvalidPartyDataException {
 		if (projectedPercentageOfVotes >= 0 && projectedPercentageOfVotes <= 1)
 			this.projectedPercentageOfVotes = projectedPercentageOfVotes;
 		else
-			System.err.println("Projected Percentage of Votes must be a float between 0 and 1");
+			throw new InvalidPartyDataException("Projected Percentage of Votes must be a float between 0 and 1");
 		return this.projectedPercentageOfVotes;
 	}
 

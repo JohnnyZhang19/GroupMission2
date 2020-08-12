@@ -52,9 +52,14 @@ public class PollList {
 			System.err.println("There is no more rooms in the list, the list is full."); 	// if the list is full, then cannot add new poll to it and print a error.
 		}
 	}
+	/**
+	 * I choose to throw the InvalidPartyDataException because I am not sure how to handle the exception invalid data related to parties
+	 * @param partyNames
+	 * @return
+	 * @throws InvalidPartyDataException
+	 */
 	
-	
-	public Poll getAggregatePoll(String[] partyNames) {
+	public Poll getAggregatePoll(String[] partyNames) throws InvalidPartyDataException {
 		Poll poll = new Poll("Aggregate",partyNames.length);	
 		float totalSeats = 0;
 		float totalVote = 0;
@@ -71,17 +76,24 @@ public class PollList {
 				if (totalSeats > numOfSeats) {
 					float finalAverageSeat = party.getProjectedNumberOfSeats()/totalSeats*numOfSeats;
 					party.setProjectedNumberOfSeats(finalAverageSeat);
-				}
+				}else 
+					throw new InvalidPartyDataException("Projected Number of Seats must be a positive float.");
 				
 				if (totalVote > 1) {
 					float finalAverageVote = party.getProjectedPercentageOfVotes() / totalVote * 1;
 					party.setProjectedPercentageOfVotes(finalAverageVote);
-				}
+				}else
+					throw new InvalidPartyDataException("Projected Percentage of Votes must be a float between 0 and 1");
 			}
 		return poll;
 	}
-	
-	public Party getAveragePartyData(String partyName) {
+	/**
+	 * Similarly to the one above, I choose to throw the InvalidPartyDataException because I am not sure how to handle the exception invalid data related to parties
+	 * @param partyName
+	 * @return
+	 * @throws InvalidPartyDataException
+	 */
+	public Party getAveragePartyData(String partyName) throws InvalidPartyDataException {
 		float averageSeats = 0;
 		float averageVote = 0;
 		float numOfOccur = 0.0f;

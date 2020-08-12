@@ -14,6 +14,8 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.paint.Color;
+import model.InvalidPartyDataException;
 
 /**
  * This class is a controller which extends PollTrackerController and
@@ -38,6 +40,9 @@ public class EditPollController extends PollTrackerController {
 
 	@FXML
     private Label warninglabel2;
+	
+	@FXML
+    private Label warninglabel21;
 	
 	@FXML
     private Label warningLabel;
@@ -104,9 +109,28 @@ public class EditPollController extends PollTrackerController {
 		 * 	We get the userPollChoose poll from the pollList, and get the userPartyChoose 
 		 * party from the userPollChoose poll, and set the number of seats and votes of userPartyChoose party
 		 * in party choiceBox.
+		 * 
+		 * 
+		 * We use try/catch statements to avoid InvalidPartyDataException.
+		 * If the projectedNumberOfSeats and projectedPercentOfVotes are valid, the labels will be set to blank "".
+		 * Otherwise, if they are invalid, the labels will print on screen error message(s) in red
 		 */
-		getPollList().getPolls()[userPollChoose].getPartiesSortedBySeats()[userPartyChoose].setProjectedPercentageOfVotes(voteInput);
-		getPollList().getPolls()[userPollChoose].getPartiesSortedBySeats()[userPartyChoose].setProjectedNumberOfSeats(seatsInput);
+		try {
+			getPollList().getPolls()[userPollChoose].getPartiesSortedBySeats()[userPartyChoose].setProjectedPercentageOfVotes(voteInput);
+			warninglabel21.setText("");
+		} catch (InvalidPartyDataException e) {
+			// TODO Auto-generated catch block
+			warninglabel21.setTextFill(Color.RED);
+			warninglabel21.setText("Percentage of Votes must be written as a float between 0 and 1.");
+		}
+		try {
+			getPollList().getPolls()[userPollChoose].getPartiesSortedBySeats()[userPartyChoose].setProjectedNumberOfSeats(seatsInput);
+			warninglabel2.setText("");
+		} catch (InvalidPartyDataException e) {
+			// TODO Auto-generated catch block
+			warninglabel2.setTextFill(Color.RED);
+			warninglabel2.setText("Projected Number of Seats must be a positive float.");
+		}
 	}
 		 	
 	/**
