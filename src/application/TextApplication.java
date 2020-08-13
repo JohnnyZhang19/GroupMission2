@@ -23,7 +23,10 @@ public class TextApplication {
 			for (int index = 0; index < allPolls.length && allPolls[index] != null; index++) {
 				displayPollDataBySeat(allPolls[index]);
 			}
-			displayPollDataBySeat(polls.getAggregatePoll(partyNames));
+		/**
+		 * I omit this code because it has not contributed to the poll visualisation
+		 */
+		//	displayPollDataBySeat(polls.getAggregatePoll(partyNames));
 		}
 	}
 
