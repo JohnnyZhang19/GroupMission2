@@ -10,6 +10,9 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.paint.Color;
+import model.Poll;
+import model.PollListFullException;
 
 /**
  * This class is a controller which extends PollTrackerController
@@ -37,6 +40,9 @@ public class AddPollController extends PollTrackerController{
     @FXML
     private TextField enterPollName;
     
+    @FXML
+    private Label errorMsg;
+    
     /**
      * this method will update the user input in textFeild poll name to replace the poll name in the choiceBox.
      * @param event when click the addPoll button, the data will be update.
@@ -45,7 +51,15 @@ public class AddPollController extends PollTrackerController{
     @FXML
     void addPoll(ActionEvent event) {
     	System.out.println("buttonClicked");
-    	getPollList().getPolls()[selectPoll.getSelectionModel().getSelectedIndex()].setName(enterPollName.getText());
+    	getPollList().getPolls()[selectPoll.getSelectionModel().getSelectedIndex()] = getFactory().createRandomPoll(enterPollName.getText());
+    	try {
+    		getPollList().addPoll(getFactory().createRandomPoll(enterPollName.getText()));
+    		errorMsg.setText("");
+		} catch (PollListFullException e) {
+			// TODO Auto-generated catch block
+			errorMsg.setTextFill(Color.RED);
+			errorMsg.setText("There is no more rooms in the list, the list is full.");
+		}
     	
     }
     
@@ -57,7 +71,7 @@ public class AddPollController extends PollTrackerController{
     @FXML
     void clear(ActionEvent event) {
     	System.out.println("clear");
-    	enterPollName.clear();
+    	refresh();
     }
     
     @FXML
@@ -65,13 +79,14 @@ public class AddPollController extends PollTrackerController{
     	System.out.println("entered");
     	
     }
-
+    
     /**
      * this method is to show the items in the choicebBox.
      */
 	@Override
 	public void refresh() {
 		selectPoll.setItems(FXCollections.observableArrayList(getPoll()));
+		enterPollName.clear();
 	}
 	/**
 	 * this method is to set the choiceBox
