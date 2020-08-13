@@ -80,18 +80,16 @@ public class Factory {
 			try {
 				party1.setProjectedNumberOfSeats(party1.getProjectedNumberOfSeats() + numOfSeats - numOfSeatsTillNow);
 			} catch (InvalidPartyDataException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
-			}
-			try {
-				party1.setProjectedPercentageOfVotes(party1.getProjectedPercentageOfVotes() + (1 - votesPercentTillNow));
-			} catch (InvalidPartyDataException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				try {
+					party1.setProjectedPercentageOfVotes(party1.getProjectedPercentageOfVotes() + (1 - votesPercentTillNow));
+				} catch (InvalidPartyDataException e1) {
+					e1.printStackTrace();
+				}
 			}
 		}
-		return poll;
-	}
+			return poll;
+		}
 
 	public PollList createRandomPollList(int numOfPolls) {
 		PollList list = new PollList(numOfPolls,numOfSeats);

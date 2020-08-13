@@ -54,6 +54,9 @@ public class PollList {
 	}
 	/**
 	 * I choose to throw the InvalidPartyDataException because I am not sure how to handle the exception invalid data related to parties
+	 * 
+	 * I choose to throw the PollFullException, because there will be other method in other class need to call this method
+	 * and this Exception will be handled in those methods.
 	 * @param partyNames
 	 * @return
 	 * @throws InvalidPartyDataException, PollFullException
@@ -63,9 +66,6 @@ public class PollList {
 		Poll poll = new Poll("Aggregate",partyNames.length);	
 		float totalSeats = 0;
 		float totalVote = 0;
-		//I choose to throw the PollFullException, because there will be other method in other class need to call this method
-		//and this Exception will be handled in those methods.
-		try {
 			for (int i = 0; i < partyNames.length; i++) {
 				String partyName = partyNames[i];
 				Party averageParty = getAveragePartyData(partyName);
@@ -74,9 +74,7 @@ public class PollList {
 	
 				poll.addParty(averageParty);
 			}
-		}catch(PollFullException a) {
-			throw new PollFullException();
-		}
+			
 			for (int i = 0; i < partyNames.length; i++) {
 				Party party = poll.getParty(partyNames[i]);
 				if (totalSeats > numOfSeats) {
