@@ -8,7 +8,8 @@ import java.util.Comparator;
 	 * number of seats and votes.
 	 * 
 	 * @author Yuzhe Zhou (UCID: 30102199) TeamC1
-	 * 
+	 * For mission 3:
+	 * @author Yuzhe Zhou UCID: 30102199
 	 */
 public class Poll {
 	
@@ -75,8 +76,10 @@ public class Poll {
 	 * in our poll.
 	 * 
 	 * @param party: the certain party in our poll.
+	 * @throws PollFullException If the poll is full, we cannot add any parties in it,
+	 * this Exception will be throw.
 	 */
-	public void addParty(Party party){
+	public void addParty(Party party) throws PollFullException{
 		if(party == null){
 			System.err.println("The party object is null");
 			return;
@@ -98,7 +101,9 @@ public class Poll {
 			parties[partiesInPoll] = party;
 			partiesInPoll++;
 		}else{
-			System.err.println("Parties has no more rooms, the poll is full");
+			// This PollFullException will be throw because other method need to call this method and this PollFullException
+			//will be handled in those methods.
+			throw new PollFullException("Parties has no more rooms, the poll is full");
 		}
 	}
 

@@ -9,7 +9,8 @@ package model;
  * In each catch statement, a stack trace is printed.
  * 
  * @author Musaab Shahid
- *
+ * For mission 3:
+ * @author Yuzhe Zhou, Zonglin Zhang
  */
 import java.util.Random;
 import java.util.Scanner;
@@ -43,6 +44,11 @@ public class Factory {
 		return null;
 	}
 	
+	/**
+	 * This method is to create a poll i the pollList.
+	 * @param name name of the poll you want to create.
+	 * @return this poll name.
+	 */
 	public Poll createRandomPoll(String name) {
 		Poll poll = new Poll(name, partyNames.length);
 		int numOfSeatsTillNow = 0;
@@ -50,15 +56,24 @@ public class Factory {
 		Random rand = new Random();
 		int i = 0;
 		Party party;
-		for (String partyName : partyNames) {
-			int maximumSeats =  (numOfSeats - numOfSeatsTillNow) > (partyNames.length - i) ? rand.nextInt((numOfSeats -  numOfSeatsTillNow)/(partyNames.length - i)) + 1 : 0;
-			int maximumPercent = (100 - votesPercentTillNow) > (partyNames.length - i) ? rand.nextInt((int)(100 - votesPercentTillNow)/(partyNames.length - i)) + 1 : 0;
-			party = this.createRandomParty(partyName, maximumSeats, maximumPercent);
-			poll.addParty(party);
-			numOfSeatsTillNow += party.getProjectedNumberOfSeats();
-			votesPercentTillNow += party.getProjectedPercentageOfVotes();
-			i++;
+		
+		//This addParty may have some problem, so we add try before it.
+		try {
+			for (String partyName : partyNames) {
+				int maximumSeats =  (numOfSeats - numOfSeatsTillNow) > (partyNames.length - i) ? rand.nextInt((numOfSeats -  numOfSeatsTillNow)/(partyNames.length - i)) + 1 : 0;
+				int maximumPercent = (100 - votesPercentTillNow) > (partyNames.length - i) ? rand.nextInt((int)(100 - votesPercentTillNow)/(partyNames.length - i)) + 1 : 0;
+				party = this.createRandomParty(partyName, maximumSeats, maximumPercent);
+				poll.addParty(party);
+				numOfSeatsTillNow += party.getProjectedNumberOfSeats();
+				votesPercentTillNow += party.getProjectedPercentageOfVotes();
+				i++;
+			}
+		
+		//Catch this PollFullException and print stack trace.
+		}catch (PollFullException a) {
+			a.printStackTrace();
 		}
+		
 		if (numOfSeatsTillNow < numOfSeats || votesPercentTillNow < 100) {
 			int randomIndex = rand.nextInt(partyNames.length);
 			Party party1 = poll.getPartiesSortedBySeats()[randomIndex];

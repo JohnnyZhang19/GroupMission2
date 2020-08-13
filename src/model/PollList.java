@@ -56,20 +56,26 @@ public class PollList {
 	 * I choose to throw the InvalidPartyDataException because I am not sure how to handle the exception invalid data related to parties
 	 * @param partyNames
 	 * @return
-	 * @throws InvalidPartyDataException
+	 * @throws InvalidPartyDataException, PollFullException
 	 */
 	
-	public Poll getAggregatePoll(String[] partyNames) throws InvalidPartyDataException {
+	public Poll getAggregatePoll(String[] partyNames) throws InvalidPartyDataException, PollFullException {
 		Poll poll = new Poll("Aggregate",partyNames.length);	
 		float totalSeats = 0;
 		float totalVote = 0;
-		for (int i = 0; i < partyNames.length; i++) {
-			String partyName = partyNames[i];
-			Party averageParty = getAveragePartyData(partyName);
-			totalSeats += averageParty.getProjectedNumberOfSeats();
-			totalVote += averageParty.getProjectedPercentageOfVotes();
-
-			poll.addParty(averageParty);
+		//I choose to throw the PollFullException, because there will be other method in other class need to call this method
+		//and this Exception will be handled in those methods.
+		try {
+			for (int i = 0; i < partyNames.length; i++) {
+				String partyName = partyNames[i];
+				Party averageParty = getAveragePartyData(partyName);
+				totalSeats += averageParty.getProjectedNumberOfSeats();
+				totalVote += averageParty.getProjectedPercentageOfVotes();
+	
+				poll.addParty(averageParty);
+			}
+		}catch(PollFullException a) {
+			throw new PollFullException();
 		}
 			for (int i = 0; i < partyNames.length; i++) {
 				Party party = poll.getParty(partyNames[i]);
@@ -119,7 +125,7 @@ public class PollList {
 	
 	@Override
 	public String toString() {
-		return "Number of seats: " + numOfSeats; 		// this return the ‘Number of seats: <numOfSeats>’.
+		return "Number of seats: " + numOfSeats; 		
 	}
 	
 
