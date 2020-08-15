@@ -54,6 +54,7 @@ public class PollTest {
 			p.addParty(p9);
 			p.addParty(p10);
 		} catch (PollFullException e) {
+			fail("Exception is not supposed to be here");
 		}
 		
 				
@@ -89,6 +90,7 @@ public class PollTest {
 			p.addParty(p9);
 			p.addParty(p10);
 		} catch (PollFullException e) {
+			fail("Exception is not supposed to be here");
 		}
 		
 				
@@ -103,6 +105,7 @@ public class PollTest {
 		try {
 			p.addParty(party);
 		} catch (PollFullException e) {
+			fail("Exception is not supposed to be here");
 		}
 		assertEquals("Created poll with single party, expected number of parties to be one", 1, p.getNumberOfParties());
 		assertEquals("Created poll with single party, expected that party to be found in getParty method.", party, p.getParty("PartyOne"));
@@ -117,6 +120,7 @@ public class PollTest {
 			p.addParty(p1);
 			p.addParty(p2);
 		} catch (PollFullException e) {
+			fail("Exception is not supposed to be here");
 		}
 		
 		assertEquals("Created poll with two unique parties, expected number of parties to be two", 2, p.getNumberOfParties());
@@ -141,6 +145,7 @@ public class PollTest {
 			p.addParty(p5);
 			p.addParty(p6);
 		} catch (PollFullException e) {
+			fail("Exception is not supposed to be here");
 		}
 		
 		assertEquals("Created poll with six parties, expected number of parties to be six", 6, p.getNumberOfParties());
@@ -171,10 +176,12 @@ public class PollTest {
 			p.addParty(p5);
 			p.addParty(p6);
 			p.addParty(p7);;
-		} catch (PollFullException e) {
+			fail("Expceted exception here");
+		} catch (PollFullException e) { 
+			System.out.println("Expceted exception here!");
 		}
 		
-		
+		//This parts will never be executed.
 		assertEquals("Created poll with six parties, expected number of parties to be six", 6, p.getNumberOfParties());
 		assertEquals("Created poll with six parties, expected 'PartyOne' by getParty method.", p1, p.getParty("PartyOne"));
 		assertEquals("Created poll with six parties, expected 'Party Two' by getParty method.", p2, p.getParty("Party Two"));
@@ -194,6 +201,7 @@ public class PollTest {
 			p.addParty(p1);
 			p.addParty(p2);
 		} catch (PollFullException e) {
+			fail("Exception is not supposed to be here");
 		}
 		
 		assertEquals("Created poll with two parties with the same name, expected number of parties to be one", 1, p.getNumberOfParties());
@@ -209,6 +217,7 @@ public class PollTest {
 			p.addParty(p1);
 			p.addParty(p2);
 		} catch (PollFullException e) {
+			fail("Exception is not supposed to be here");
 		}
 		
 		assertEquals("Created poll with two parties with the same name, expected number of parties to be one", 1, p.getNumberOfParties());
@@ -235,6 +244,7 @@ public class PollTest {
 			p.addParty(p6);
 			p.addParty(p7);;
 		} catch (PollFullException e) {
+			fail("Exception is not supposed to be here");
 		}
 		
 		
@@ -267,6 +277,7 @@ public class PollTest {
 			p.addParty(p6);
 			p.addParty(p7);;
 		} catch (PollFullException e) {
+			fail("Exception is not supposed to be here");
 		}
 	
 		
@@ -348,6 +359,7 @@ public class PollTest {
 			p.addParty(p4);
 			p.addParty(p2);
 		} catch (PollFullException e) {
+			
 		}
 	
 		
